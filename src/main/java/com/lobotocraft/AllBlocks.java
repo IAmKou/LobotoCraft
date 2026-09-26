@@ -75,6 +75,34 @@ public class AllBlocks {
             .build()
             .register();
 
+    public static final BlockEntry<Block> RAW_LEAD_BLOCK = REGISTRATE.block("raw_lead_block", Block::new)
+            .initialProperties(() -> Blocks.RAW_GOLD_BLOCK)
+            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN)
+                    .requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .tag(BlockTags.NEEDS_IRON_TOOL)
+            .lang("Block of Raw Lead")
+            .transform(tagBlockAndItem(CommonMetal.LEAD.rawStorageBlocks))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .register();
+
+    public static final BlockEntry<Block> LEAD_BLOCK = REGISTRATE.block("lead_block", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN)
+                    .requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(BlockTags.NEEDS_IRON_TOOL)
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .tag(BlockTags.BEACON_BASE_BLOCKS)
+            .transform(tagBlockAndItem(CommonMetal.LEAD.storageBlocks))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .lang("Block of Lead")
+            .register();
+
+
     public static final BlockEntry<Block> DEEPSLATE_SILVER_ORE = REGISTRATE.block("deepslate_silver_ore", Block::new)
             .initialProperties(() -> Blocks.DEEPSLATE_IRON_ORE)
             .properties(p -> p.mapColor(MapColor.STONE)

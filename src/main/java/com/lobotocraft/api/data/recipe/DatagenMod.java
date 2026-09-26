@@ -1,4 +1,4 @@
-package com.lobotocraft.foundation.data.recipe;
+package com.lobotocraft.api.data.recipe;
 
 import net.minecraft.resources.ResourceLocation;
 

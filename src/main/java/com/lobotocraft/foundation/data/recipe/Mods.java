@@ -1,6 +1,7 @@
 package com.lobotocraft.foundation.data.recipe;
 
 import com.lobotocraft.LobotoCraft;
+import com.lobotocraft.api.data.recipe.DatagenMod;
 
 import java.util.function.Consumer;
 

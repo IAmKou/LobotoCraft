@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "lobotocraft:block/raw_lead_block"
+  }
+}

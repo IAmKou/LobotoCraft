@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lobotocraft.foundation.data.LobotoRegistrate;
 import com.lobotocraft.foundation.item.TooltipModifier;
+import com.lobotocraft.infrastructure.data.CreateDatagen;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.fml.ModLoadingContext;
 import org.slf4j.Logger;
 
@@ -41,6 +43,9 @@ public class LobotoCraft {
         AllCreativeModeTabs.register(modEventBus);
         AllBlocks.register();
         AllItems.register();
+
+        modEventBus.addListener(EventPriority.HIGHEST, CreateDatagen::gatherDataHighPriority);
+        modEventBus.addListener(EventPriority.LOWEST, CreateDatagen::gatherData);
     }
 
     public static ResourceLocation asResource(String path) {

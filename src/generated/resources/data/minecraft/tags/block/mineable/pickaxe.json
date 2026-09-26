@@ -2,6 +2,8 @@
   "values": [
     "lobotocraft:lead_ore",
     "lobotocraft:deepslate_lead_ore",
+    "lobotocraft:raw_lead_block",
+    "lobotocraft:lead_block",
     "lobotocraft:deepslate_silver_ore",
     "lobotocraft:silver_ore",
     "lobotocraft:mercury_ore"
