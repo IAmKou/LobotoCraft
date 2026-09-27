@@ -1,6 +1,5 @@
 package com.lobotocraft.infrastructure.data;
 
-import com.lobotocraft.AllTags;
 import com.lobotocraft.AllTags.AllBlockTags;
 import com.lobotocraft.AllTags.AllItemTags;
 import com.lobotocraft.foundation.data.recipe.CommonMetal;
@@ -50,7 +49,7 @@ public class TagLangGenerator {
         translate(AllBlockTags.NON_MOVABLE, "Non-movable");
         translate(AllBlockTags.NON_BREAKABLE, "Non-breakable");
 
-        translate(AllItemTags.CREATE_INGOTS, "Create's Ingots");
+        translate(AllItemTags.LOBOTO_INGOTS, "Loboto's Ingots");
 
         // metals
         for (CommonMetal metal : CommonMetal.values()) {

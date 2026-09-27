@@ -10,6 +10,7 @@
   "item.lobotocraft.raw_lead": "pɐǝꞀ ʍɐᴚ",
   "item.lobotocraft.raw_mercury": "ʎɹnɔɹǝW ʍɐᴚ",
   "item.lobotocraft.raw_silver": "ɹǝʌןıS ʍɐᴚ",
+  "item.lobotocraft.silver_ingot": "ʇobuI ɹǝʌןıS",
   "tag.block.c.ores.copper": "sǝɹO ɹǝddoƆ",
   "tag.block.c.ores.gold": "sǝɹO pןo⅁",
   "tag.block.c.ores.iron": "sǝɹO uoɹI",
@@ -72,5 +73,5 @@
   "tag.item.c.storage_blocks.raw_mercury": "sʞɔoןᗺ ǝbɐɹoʇS ʎɹnɔɹǝW ʍɐᴚ",
   "tag.item.c.storage_blocks.raw_silver": "sʞɔoןᗺ ǝbɐɹoʇS ɹǝʌןıS ʍɐᴚ",
   "tag.item.c.storage_blocks.silver": "sʞɔoןᗺ ǝbɐɹoʇS ɹǝʌןıS",
-  "tag.item.lobotocraft.create_ingots": "sʇobuI s,ǝʇɐǝɹƆ"
+  "tag.item.lobotocraft.loboto_ingots": "sʇobuI s,oʇoqoꞀ"
 }

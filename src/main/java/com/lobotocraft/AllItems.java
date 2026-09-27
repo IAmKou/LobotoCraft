@@ -7,7 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.Tags;
 
-import static com.lobotocraft.AllTags.AllItemTags.CREATE_INGOTS;
+import static com.lobotocraft.AllTags.AllItemTags.LOBOTO_INGOTS;
 
 public class AllItems {
     private static final LobotoRegistrate REGISTRATE = LobotoCraft.registrate();
@@ -22,7 +22,9 @@ public class AllItems {
     public static final ItemEntry<Item> RAW_MERCURY =
             taggedIngredient("raw_mercury", CommonMetal.MERCURY.rawOres, Tags.Items.RAW_MATERIALS);
     public static final ItemEntry<Item> LEAD_INGOT =
-            taggedIngredient("lead_ingot", CommonMetal.LEAD.ingots, CREATE_INGOTS.tag);
+            taggedIngredient("lead_ingot", CommonMetal.LEAD.ingots, LOBOTO_INGOTS.tag);
+    public static final ItemEntry<Item> SILVER_INGOT =
+            taggedIngredient("silver_ingot", CommonMetal.SILVER.ingots, LOBOTO_INGOTS.tag);
     @SafeVarargs
     private static ItemEntry<Item> taggedIngredient(String name, TagKey<Item>... tags) {
         return REGISTRATE.item(name, Item::new)

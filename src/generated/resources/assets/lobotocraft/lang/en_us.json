@@ -10,6 +10,7 @@
   "item.lobotocraft.raw_lead": "Raw Lead",
   "item.lobotocraft.raw_mercury": "Raw Mercury",
   "item.lobotocraft.raw_silver": "Raw Silver",
+  "item.lobotocraft.silver_ingot": "Silver Ingot",
   "tag.block.c.ores.copper": "Copper Ores",
   "tag.block.c.ores.gold": "Gold Ores",
   "tag.block.c.ores.iron": "Iron Ores",
@@ -72,5 +73,5 @@
   "tag.item.c.storage_blocks.raw_mercury": "Raw Mercury Storage Blocks",
   "tag.item.c.storage_blocks.raw_silver": "Raw Silver Storage Blocks",
   "tag.item.c.storage_blocks.silver": "Silver Storage Blocks",
-  "tag.item.lobotocraft.create_ingots": "Create's Ingots"
+  "tag.item.lobotocraft.loboto_ingots": "Loboto's Ingots"
 }

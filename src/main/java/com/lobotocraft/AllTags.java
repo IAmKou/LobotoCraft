@@ -85,7 +85,7 @@ public class AllTags {
 
     public enum AllItemTags {
 
-        CREATE_INGOTS;
+        LOBOTO_INGOTS;
 
         public final TagKey<Item> tag;
 

@@ -112,8 +112,18 @@ public final class LobotoStandardRecipeGen extends BaseRecipeProvider {
             .rewardXP(1)
             .inBlastFurnace(),
 
-    RAW_ZINC_ORE = create(AllItems.LEAD_INGOT::get).withSuffix("_from_raw_ore")
+    RAW_LEAD_ORE = create(AllItems.LEAD_INGOT::get).withSuffix("_from_raw_ore")
             .viaCookingTag(() -> CommonMetal.LEAD.rawOres)
+            .rewardXP(.7f)
+            .inBlastFurnace(),
+
+    SILVER_ORE = create(AllItems.SILVER_INGOT::get).withSuffix("_from_ore")
+            .viaCookingTag(() -> CommonMetal.SILVER.ores.items())
+            .rewardXP(1)
+            .inBlastFurnace(),
+
+    RAW_SIVLER_ORE = create(AllItems.SILVER_INGOT::get).withSuffix("_from_raw_ore")
+            .viaCookingTag(() -> CommonMetal.SILVER.rawOres)
             .rewardXP(.7f)
             .inBlastFurnace();
     /*
