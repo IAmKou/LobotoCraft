@@ -25,6 +25,7 @@ public class AllItems {
             taggedIngredient("lead_ingot", CommonMetal.LEAD.ingots, LOBOTO_INGOTS.tag);
     public static final ItemEntry<Item> SILVER_INGOT =
             taggedIngredient("silver_ingot", CommonMetal.SILVER.ingots, LOBOTO_INGOTS.tag);
+
     @SafeVarargs
     private static ItemEntry<Item> taggedIngredient(String name, TagKey<Item>... tags) {
         return REGISTRATE.item(name, Item::new)

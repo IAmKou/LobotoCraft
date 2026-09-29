@@ -1,7 +1,9 @@
 package com.kouthekoi.lobotocraft;
 
+import com.kouthekoi.lobotocraft.api.validate.FormableWallBlock;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
 import com.kouthekoi.lobotocraft.foundation.data.recipe.CommonMetal;
+import com.kouthekoi.lobotocraft.infrastructure.specialblock.ContainmentControllerBlock;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.Map;
@@ -180,16 +183,66 @@ public class AllBlocks {
             .build()
             .register();
 
-//    public static final BlockEntry<Block> CONTAINMENT_WALL = REGISTRATE.block("containment_wall", Block::new)
-//            .properties(p -> p.strength(20.0F, 6.0F)
-//                    .requiresCorrectToolForDrops()
-//                    .sound(SoundType.ANCIENT_DEBRIS))
-//            .transform(pickaxeOnly())
-//            .tag(BlockTags.NEEDS_IRON_TOOL)
-//            .tag(Tags.Blocks.BUDDING_BLOCKS)
-//            .build()
-//            .lang("Contaiment_wall")
-//            .register();
+    public static final BlockEntry<FormableWallBlock> CONTAINMENT_WALL =
+            REGISTRATE.block("containment_wall", FormableWallBlock::new)
+                    .initialProperties(() -> Blocks.DEEPSLATE)
+                    .properties(p -> p.strength(20.0F, 6.0F)
+                            .mapColor(MapColor.TERRACOTTA_PURPLE)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.DEEPSLATE))
+                    .transform(pickaxeOnly())
+                    .tag(BlockTags.NEEDS_IRON_TOOL, AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+                        String name = state.getValue(FormableWallBlock.FORMED)
+                                ? ctx.getName() + "_formed" : ctx.getName();
+                        return ConfiguredModel.builder()
+                                .modelFile(prov.models().cubeAll(name, prov.modLoc("block/" + name)))
+                                .build();
+                    }))
+                    .lang("Containment wall")
+                    .simpleItem()
+                    .register();
+
+    public static final BlockEntry<FormableWallBlock> HARD_CONTAINMENT_WALL =
+            REGISTRATE.block("hard_containment_wall", FormableWallBlock::new)
+                    .initialProperties(() -> Blocks.OBSIDIAN)
+                    .properties(p -> p.strength(40.0F)
+                            .mapColor(MapColor.TERRACOTTA_PURPLE)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.DEEPSLATE))
+                    .transform(pickaxeOnly())
+                    .tag(BlockTags.NEEDS_DIAMOND_TOOL, AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+                        String name = state.getValue(FormableWallBlock.FORMED)
+                                ? ctx.getName() + "_formed" : ctx.getName();
+                        return ConfiguredModel.builder()
+                                .modelFile(prov.models().cubeAll(name, prov.modLoc("block/" + name)))
+                                .build();
+                    }))
+                    .lang("Hard containment wall")
+                    .simpleItem()
+                    .register();
+
+    // unchanged
+    public static final BlockEntry<Block> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", Block::new)
+            .initialProperties(() -> Blocks.GLASS)
+            .properties(p -> p.mapColor(MapColor.CRIMSON_HYPHAE)
+                    .sound(SoundType.GLASS))
+            .tag(AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+            .lang("Qliphoth counter")
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<ContainmentControllerBlock> CONTAINMENT_CONTROLLER =
+            REGISTRATE.block("containment_controller", ContainmentControllerBlock::new)
+                    .initialProperties(() -> Blocks.GLASS_PANE)
+                    .properties(p -> p.mapColor(MapColor.COLOR_BLACK)
+                            .sound(SoundType.GLASS)
+                            .noOcclusion())
+                    .tag(AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .lang("Containment controller")
+                    .simpleItem()
+                    .register();
 
     public static void register() {
     }

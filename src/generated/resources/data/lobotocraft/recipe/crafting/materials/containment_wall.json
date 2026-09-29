@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "tag": "c:bricks"
+    },
+    "C": {
+      "tag": "c:concretes"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "CIC",
+    "BIB",
+    "CIC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lobotocraft:containment_wall"
+  }
+}

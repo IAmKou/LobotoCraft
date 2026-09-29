@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "tag": "c:concretes"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "O": {
+      "tag": "c:obsidians"
+    }
+  },
+  "pattern": [
+    "OIO",
+    "CIC",
+    "OIO"
+  ],
+  "result": {
+    "count": 1,
+    "id": "lobotocraft:hard_containment_wall"
+  }
+}

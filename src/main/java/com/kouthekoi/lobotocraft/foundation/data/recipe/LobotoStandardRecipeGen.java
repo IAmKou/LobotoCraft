@@ -12,10 +12,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.kouthekoi.lobotocraft.AllBlocks;
 import com.kouthekoi.lobotocraft.AllItems;
+import com.kouthekoi.lobotocraft.AllTags;
 import com.kouthekoi.lobotocraft.LobotoCraft;
+import com.kouthekoi.lobotocraft.foundation.data.recipe.LobotoRecipeProvider.I;
 import com.kouthekoi.lobotocraft.api.Doodle;
 import com.kouthekoi.lobotocraft.api.data.recipe.BaseRecipeProvider;
 import com.kouthekoi.lobotocraft.mixin.accessor.MappedRegistryAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.base.Supplier;
@@ -89,6 +93,22 @@ public final class LobotoStandardRecipeGen extends BaseRecipeProvider {
                     .pattern("LLL")
                     .pattern("LLL")
                     .pattern("LLL")),
+
+    CONTAINMENT_WALL = create(AllBlocks.CONTAINMENT_WALL).unlockedByTag(() -> Tags.Items.CONCRETES)
+            .viaShaped(b -> b.define('C', Tags.Items.CONCRETES)
+                    .define('I', Tags.Items.INGOTS_IRON)
+                    .define('B', Tags.Items.BRICKS)
+                    .pattern("CIC")
+                    .pattern("BIB")
+                    .pattern("CIC")),
+
+    HARD_CONTAINMENT_WALL = create(AllBlocks.HARD_CONTAINMENT_WALL).unlockedByTag(() -> Tags.Items.OBSIDIANS_NORMAL)
+            .viaShaped(b -> b.define('C', Tags.Items.CONCRETES)
+                    .define('I', Blocks.IRON_BLOCK)
+                    .define('O', Tags.Items.OBSIDIANS)
+                    .pattern("OIO")
+                    .pattern("CIC")
+                    .pattern("OIO")),
 
     LEAD_BLOCK = create(AllBlocks.LEAD_BLOCK).unlockedBy(AllItems.LEAD_INGOT::get)
             .viaShaped(b -> b.define('L', AllItems.LEAD_INGOT.get())

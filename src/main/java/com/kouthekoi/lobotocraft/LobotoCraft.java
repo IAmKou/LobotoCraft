@@ -40,6 +40,7 @@ public class LobotoCraft {
         AllCreativeModeTabs.register(modEventBus);
         AllBlocks.register();
         AllItems.register();
+        AllBlocksEntity.register();
 
         modEventBus.addListener(EventPriority.HIGHEST, CreateDatagen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, CreateDatagen::gatherData);

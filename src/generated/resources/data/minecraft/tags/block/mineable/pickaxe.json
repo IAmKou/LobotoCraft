@@ -6,6 +6,8 @@
     "lobotocraft:lead_block",
     "lobotocraft:deepslate_silver_ore",
     "lobotocraft:silver_ore",
-    "lobotocraft:mercury_ore"
+    "lobotocraft:mercury_ore",
+    "lobotocraft:containment_wall",
+    "lobotocraft:hard_containment_wall"
   ]
 }

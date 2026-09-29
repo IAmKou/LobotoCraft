@@ -3,6 +3,7 @@ package com.kouthekoi.lobotocraft.foundation.data;
 import com.kouthekoi.lobotocraft.api.registrate.LobotoRegistrateRegistrationCallback;
 import com.kouthekoi.lobotocraft.foundation.item.TooltipModifier;
 import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.builders.Builder;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
@@ -12,6 +13,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
@@ -84,5 +86,17 @@ public class LobotoRegistrate extends AbstractRegistrate<LobotoRegistrate> {
             TAB_LOOKUP.put(entry, currentTab);
 
         return entry;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityBuilder<T,LobotoRegistrate> blockEntity(String name,  BlockEntityBuilder.BlockEntityFactory<T> factory) {
+                    return blockEntity(self(),name, factory);
+    }
+
+    @Override
+    public <T extends BlockEntity, P> BlockEntityBuilder<T, P> blockEntity(P parent, String name,
+                                                                                 BlockEntityBuilder.BlockEntityFactory<T> factory) {
+        return (BlockEntityBuilder<T, P>) entry(name,
+                (callback) -> BlockEntityBuilder.create(this, parent, name, callback, factory));
     }
 }

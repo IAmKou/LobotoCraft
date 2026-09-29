@@ -23,6 +23,10 @@ public static void addGenerators() {
 private static void genBlockTags(RegistrateTagsProvider<Block> provIn) {
     CreateTagsProvider<Block> prov = new CreateTagsProvider<>(provIn, Block::builtInRegistryHolder);
 
+    prov.tag(Tags.Blocks.CONCRETES)
+            .addTag(AllTags.AllBlockTags.BUILDING_BLOCK.tag);
+
+
 }
 
 private static void genItemTags(RegistrateTagsProvider<Item> provIn) {
