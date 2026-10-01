@@ -1,11 +1,11 @@
-package com.kouthekoi.lobotocraft.api.validate;
+package com.kouthekoi.lobotocraft.content.containmentcontroller;
 
-import com.kouthekoi.lobotocraft.AllBlocks;
-import com.kouthekoi.lobotocraft.AllBlocksEntity;
-import com.kouthekoi.lobotocraft.api.data.recipe.ContainmentRoomValidator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +35,9 @@ public class  ContainmentControllerBlockEntity extends BlockEntity {
     public void validateRoom() {
         if (!(level instanceof ServerLevel server)) return;
 
-        unform(server);
+        setFormed(server, false);   // un-form old walls, no sync yet
+        structure.clear();
+
         ContainmentValidationResult r = ContainmentRoomValidator.validate(server, worldPosition);
         active = r.valid();
         validationReason = r.reason();
@@ -43,14 +45,33 @@ public class  ContainmentControllerBlockEntity extends BlockEntity {
             structure.addAll(r.walls());
             setFormed(server, true);
         }
-        setChanged();
+        sync();   // was setChanged()
     }
 
     public void unform(ServerLevel server) {
         setFormed(server, false);
         structure.clear();
         active = false;
-        setChanged();
+        sync();   // was setChanged()
+    }
+
+    public void serverTick() {
+        if (!active || !(level instanceof ServerLevel server) || server.getGameTime() % 20 != 0) return;
+        for (BlockPos p : structure) {
+            if (!server.isLoaded(p)) return;
+            BlockState s = server.getBlockState(p);
+
+            boolean stillWall = ContainmentRoomValidator.isContainmentWall(s);
+            boolean notFormed = s.getBlock() instanceof FormableWallBlock
+                    && !s.getValue(FormableWallBlock.FORMED);
+
+            if (!stillWall || notFormed) {
+                unform(server);
+                validationReason = "Structure was broken";
+                sync();
+                return;
+            }
+        }
     }
 
     private void setFormed(ServerLevel server, boolean formed) {
@@ -59,22 +80,6 @@ public class  ContainmentControllerBlockEntity extends BlockEntity {
             BlockState s = server.getBlockState(p);
             if (s.getBlock() instanceof FormableWallBlock && s.getValue(FormableWallBlock.FORMED) != formed) {
                 server.setBlock(p, s.setValue(FormableWallBlock.FORMED, formed), Block.UPDATE_ALL);
-            }
-        }
-    }
-
-    /**
-     * Cheap integrity check: only looks at the stored wall positions, once a second.
-     */
-    public void serverTick() {
-        if (!active || !(level instanceof ServerLevel server) || server.getGameTime() % 20 != 0) return;
-        for (BlockPos p : structure) {
-            if (!server.isLoaded(p)) return;
-            BlockState s = server.getBlockState(p);
-            if (!(s.getBlock() instanceof FormableWallBlock) || !s.getValue(FormableWallBlock.FORMED)) {
-                unform(server);
-                validationReason = "Structure was broken";
-                return;
             }
         }
     }
@@ -94,5 +99,31 @@ public class  ContainmentControllerBlockEntity extends BlockEntity {
         validationReason = tag.getString("ValidationReason");
         structure.clear();
         for (long l : tag.getLongArray("Structure")) structure.add(BlockPos.of(l));
+    }
+
+    private void sync() {
+        setChanged();
+        if (level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+        }
+    }
+
+    public void disassemble() {
+        if (!(level instanceof ServerLevel server)) return;
+        unform(server);
+        validationReason = "Disassembled";
+        sync();
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag, registries);
+        return tag;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 }

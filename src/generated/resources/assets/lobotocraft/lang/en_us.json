@@ -1,4 +1,5 @@
 {
+  "block.lobotocraft.containment_controller": "Containment controller",
   "block.lobotocraft.containment_wall": "Containment wall",
   "block.lobotocraft.deepslate_lead_ore": "Deepslate Lead Ore",
   "block.lobotocraft.deepslate_silver_ore": "Deepslate Silver Ore",
@@ -6,6 +7,7 @@
   "block.lobotocraft.lead_block": "Block of Lead",
   "block.lobotocraft.lead_ore": "Lead Ore",
   "block.lobotocraft.mercury_ore": "Mercury Ore",
+  "block.lobotocraft.qliphoth_counter": "Qliphoth counter",
   "block.lobotocraft.raw_lead_block": "Block of Raw Lead",
   "block.lobotocraft.silver_ore": "Silver Ore",
   "item.lobotocraft.lead_ingot": "Lead Ingot",

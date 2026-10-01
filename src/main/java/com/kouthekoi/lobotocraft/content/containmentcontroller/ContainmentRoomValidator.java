@@ -1,8 +1,6 @@
-package com.kouthekoi.lobotocraft.api.data.recipe;
+package com.kouthekoi.lobotocraft.content.containmentcontroller;
 
-import com.kouthekoi.lobotocraft.AllBlocks;
-import com.kouthekoi.lobotocraft.api.validate.ContainmentValidationResult;
-import com.kouthekoi.lobotocraft.api.validate.FormableWallBlock;
+import com.kouthekoi.lobotocraft.AllTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -109,8 +107,9 @@ public final class ContainmentRoomValidator {
     }
     private static boolean isInteriorSpace(BlockState s) { return s.isAir(); }
 
-    private static boolean isContainmentWall(BlockState s) {
-        return s.getBlock() instanceof FormableWallBlock;
+    public static boolean isContainmentWall(BlockState s) {
+        return s.getBlock() instanceof FormableWallBlock
+                || s.is(AllTags.AllBlockTags.BUILDING_BLOCK.tag);
     }
 
     /*

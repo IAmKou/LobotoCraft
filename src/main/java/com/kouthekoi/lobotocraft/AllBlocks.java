@@ -1,9 +1,9 @@
 package com.kouthekoi.lobotocraft;
 
-import com.kouthekoi.lobotocraft.api.validate.FormableWallBlock;
+import com.kouthekoi.lobotocraft.content.containmentcontroller.FormableWallBlock;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
 import com.kouthekoi.lobotocraft.foundation.data.recipe.CommonMetal;
-import com.kouthekoi.lobotocraft.infrastructure.specialblock.ContainmentControllerBlock;
+import com.kouthekoi.lobotocraft.content.containmentcontroller.ContainmentControllerBlock;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -223,7 +223,7 @@ public class AllBlocks {
                     .simpleItem()
                     .register();
 
-    // unchanged
+
     public static final BlockEntry<Block> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", Block::new)
             .initialProperties(() -> Blocks.GLASS)
             .properties(p -> p.mapColor(MapColor.CRIMSON_HYPHAE)

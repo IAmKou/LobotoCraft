@@ -1,9 +1,8 @@
-package com.kouthekoi.lobotocraft.infrastructure.specialblock;
+package com.kouthekoi.lobotocraft.content.containmentcontroller;
 
 import com.kouthekoi.lobotocraft.AllBlocksEntity;
-import com.kouthekoi.lobotocraft.api.validate.ContainmentControllerBlockEntity;
+import com.kouthekoi.lobotocraft.foundation.utility.NetHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -36,9 +35,8 @@ public class ContainmentControllerBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                                Player player, BlockHitResult hit) {
-        if (!level.isClientSide && level.getBlockEntity(pos) instanceof ContainmentControllerBlockEntity c) {
-            c.validateRoom();
-            player.displayClientMessage(Component.literal(c.getValidationReason()), true);
+        if (level.isClientSide) {
+            NetHelper.ClientHooks.openControllerScreen(pos);
         }
         return InteractionResult.SUCCESS;
     }

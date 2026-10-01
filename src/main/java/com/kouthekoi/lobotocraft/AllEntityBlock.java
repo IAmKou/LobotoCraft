@@ -1,6 +1,6 @@
 package com.kouthekoi.lobotocraft;
 
-import com.kouthekoi.lobotocraft.api.validate.ContainmentControllerBlockEntity;
+import com.kouthekoi.lobotocraft.content.containmentcontroller.ContainmentControllerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;

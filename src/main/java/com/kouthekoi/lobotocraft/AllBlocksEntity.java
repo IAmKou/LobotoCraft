@@ -1,6 +1,6 @@
 package com.kouthekoi.lobotocraft;
 
-import com.kouthekoi.lobotocraft.api.validate.ContainmentControllerBlockEntity;
+import com.kouthekoi.lobotocraft.content.containmentcontroller.ContainmentControllerBlockEntity;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 

@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "formed=false": {
       "model": "lobotocraft:block/hard_containment_wall"
+    },
+    "formed=true": {
+      "model": "lobotocraft:block/hard_containment_wall_formed"
     }
   }
 }

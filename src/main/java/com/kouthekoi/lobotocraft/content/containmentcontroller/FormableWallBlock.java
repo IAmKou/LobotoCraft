@@ -1,4 +1,4 @@
-package com.kouthekoi.lobotocraft.api.validate;
+package com.kouthekoi.lobotocraft.content.containmentcontroller;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;

@@ -1,6 +1,8 @@
 {
   "values": [
     "lobotocraft:containment_wall",
-    "lobotocraft:hard_containment_wall"
+    "lobotocraft:hard_containment_wall",
+    "lobotocraft:qliphoth_counter",
+    "lobotocraft:containment_controller"
   ]
 }
