@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "bottom": "lobotocraft:block/containment_door_bottom",
+    "top": "lobotocraft:block/containment_door_top"
+  }
+}

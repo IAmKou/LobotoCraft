@@ -1,5 +1,6 @@
 package com.kouthekoi.lobotocraft.content.containmentcontroller;
 
+import com.kouthekoi.lobotocraft.AllBlocks;
 import com.kouthekoi.lobotocraft.AllTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,10 +9,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public final class ContainmentRoomValidator {
@@ -91,17 +92,19 @@ public final class ContainmentRoomValidator {
                 }
             }
         }
-        return ContainmentValidationResult.valid("Valid", walls);
+        return ContainmentValidationResult.valid("Valid", walls,
+                new AABB(b.minX(), b.minY(), b.minZ(), b.maxX() + 1, b.maxY() + 1, b.maxZ() + 1));
     }
     /*
      * ---------------------------------------------------------
      * FIND DOOR
      * ---------------------------------------------------------
      */
-    private static BlockPos findIronDoor(ServerLevel level, BlockPos controllerPos) {
+    public static BlockPos findIronDoor(ServerLevel level, BlockPos controllerPos) {
         for (Direction d : Direction.values()) {
             BlockPos n = controllerPos.relative(d);
-            if (level.getBlockState(n).is(Blocks.IRON_DOOR)) return n;
+            BlockState s = level.getBlockState(n);
+            if (s.is(Blocks.IRON_DOOR) || s.is(AllBlocks.CONTAINMENT_DOOR.get())) return n;
         }
         return null;
     }
@@ -109,59 +112,7 @@ public final class ContainmentRoomValidator {
 
     public static boolean isContainmentWall(BlockState s) {
         return s.getBlock() instanceof FormableWallBlock
-                || s.is(AllTags.AllBlockTags.BUILDING_BLOCK.tag);
-    }
-
-    /*
-     * ---------------------------------------------------------
-     * FIND ROOM SIDE OF DOOR
-     * ---------------------------------------------------------
-     */
-
-    private static BlockPos findInteriorSide(
-            ServerLevel level,
-            BlockPos controllerPos,
-            BlockPos doorPos
-    ) {
-
-        /*
-         * Direction from controller -> door.
-         */
-        Direction controllerToDoor =
-                directionBetween(controllerPos, doorPos);
-
-        if (controllerToDoor == null) {
-            return null;
-        }
-
-        /*
-         * The side opposite the controller
-         * should be the inside of the room.
-         */
-        BlockPos inside =
-                doorPos.relative(controllerToDoor);
-
-        BlockState state =
-                level.getBlockState(inside);
-
-        if (isInteriorSpace(state)) {
-            return inside;
-        }
-
-        /*
-         * Iron doors occupy two vertical blocks.
-         * Try the block one block above the lower door.
-         */
-        BlockPos above =
-                inside.above();
-
-        if (isInteriorSpace(
-                level.getBlockState(above))) {
-
-            return above;
-        }
-
-        return null;
+                || s.is(AllTags.AllBlockTags.CONTAINMENT_BUILDING_BLOCK.tag);
     }
 
     /*
@@ -197,12 +148,6 @@ public final class ContainmentRoomValidator {
         return null;
     }
 
-    /*
-     * ---------------------------------------------------------
-     * FLOOD FILL
-     * ---------------------------------------------------------
-     */
-
     private static Set<BlockPos> floodInterior(ServerLevel level, BlockPos start, Set<BlockPos> doorParts) {
         Set<BlockPos> visited = new HashSet<>();
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
@@ -230,154 +175,6 @@ public final class ContainmentRoomValidator {
         }
         return visited;
     }
-
-
-    /*
-     * ---------------------------------------------------------
-     * FLOOR
-     * ---------------------------------------------------------
-     */
-
-    private static ContainmentValidationResult validateFloor(
-            ServerLevel level,
-            Set<BlockPos> interior
-    ) {
-
-        for (BlockPos pos : interior) {
-
-            BlockPos below =
-                    pos.below();
-
-            BlockState belowState =
-                    level.getBlockState(below);
-
-            /*
-             * Only check blocks directly below
-             * interior air.
-             */
-            if (!belowState.is(Blocks.STONE)) {
-
-                /*
-                 * Don't complain about walls/ceiling here.
-                 */
-                if (isPotentialFloorPosition(
-                        pos,
-                        interior)) {
-
-                    return ContainmentValidationResult.invalid(
-                            "Floor must be stone at "
-                                    + below
-                    );
-                }
-            }
-        }
-
-        return ContainmentValidationResult.valid(
-                "Valid",
-                List.of()
-        );
-    }
-
-    private static boolean isPotentialFloorPosition(
-            BlockPos pos,
-            Set<BlockPos> interior
-    ) {
-
-        /*
-         * A block is considered floor if there is
-         * no interior block underneath it.
-         */
-        return !interior.contains(pos.below());
-    }
-
-    /*
-     * ---------------------------------------------------------
-     * BOUNDARY
-     * ---------------------------------------------------------
-     */
-
-    private static ContainmentValidationResult validateBoundary(
-            ServerLevel level,
-            Set<BlockPos> interior,
-            BlockPos doorPos
-    ) {
-
-        for (BlockPos pos : interior) {
-
-            for (Direction direction :
-                    Direction.values()) {
-
-                BlockPos neighbor =
-                        pos.relative(direction);
-
-                /*
-                 * Another interior block.
-                 */
-                if (interior.contains(neighbor)) {
-                    continue;
-                }
-
-                /*
-                 * Door is allowed.
-                 */
-                if (neighbor.equals(doorPos)) {
-                    continue;
-                }
-
-                BlockState boundary =
-                        level.getBlockState(neighbor);
-
-                /*
-                 * Floor.
-                 */
-                if (direction == Direction.DOWN
-                        && boundary.is(Blocks.STONE)) {
-
-                    continue;
-                }
-
-                /*
-                 * Containment walls.
-                 */
-                if (isContainmentWall(boundary)) {
-                    continue;
-                }
-
-                /*
-                 * Anything else means the room
-                 * has an invalid opening.
-                 */
-                return ContainmentValidationResult.invalid(
-                        "Invalid room boundary at "
-                                + neighbor
-                );
-            }
-        }
-
-        return ContainmentValidationResult.valid(
-                "Valid",
-                List.of()
-        );
-    }
-
-
-    /*
-     * ---------------------------------------------------------
-     * RESULT
-     * ---------------------------------------------------------
-     */
-
-    private record FloodResult(
-            Set<BlockPos> positions,
-            boolean escaped
-    ) {
-    }
-
-    /*
-     * ---------------------------------------------------------
-     * ROOM BOUNDS
-     * ---------------------------------------------------------
-     */
 
     public record RoomBounds(
             int minX,

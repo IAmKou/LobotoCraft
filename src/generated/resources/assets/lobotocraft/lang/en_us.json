@@ -1,5 +1,7 @@
 {
   "block.lobotocraft.containment_controller": "Containment controller",
+  "block.lobotocraft.containment_door": "Containment door",
+  "block.lobotocraft.containment_lever": "Containment lever",
   "block.lobotocraft.containment_wall": "Containment wall",
   "block.lobotocraft.deepslate_lead_ore": "Deepslate Lead Ore",
   "block.lobotocraft.deepslate_silver_ore": "Deepslate Silver Ore",
@@ -33,7 +35,7 @@
   "tag.block.c.storage_blocks.raw_mercury": "Raw Mercury Storage Blocks",
   "tag.block.c.storage_blocks.raw_silver": "Raw Silver Storage Blocks",
   "tag.block.c.storage_blocks.silver": "Silver Storage Blocks",
-  "tag.block.lobotocraft.building_block": "Building Block",
+  "tag.block.lobotocraft.containment_building_block": "Building Block",
   "tag.block.lobotocraft.non_breakable": "Non-breakable",
   "tag.block.lobotocraft.non_movable": "Non-movable",
   "tag.block.lobotocraft.storage_block": "Storage Block",

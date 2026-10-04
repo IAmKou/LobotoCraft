@@ -48,7 +48,7 @@ public class TagLangGenerator {
         // blocks and block items
         translate(AllBlockTags.NON_MOVABLE, "Non-movable");
         translate(AllBlockTags.NON_BREAKABLE, "Non-breakable");
-        translate(AllBlockTags.BUILDING_BLOCK, "Building Block");
+        translate(AllBlockTags.CONTAINMENT_BUILDING_BLOCK, "Building Block");
         translate(AllBlockTags.STORAGE_BLOCK, "Storage Block");
 
         translate(AllItemTags.LOBOTO_INGOTS, "Loboto's Ingots");

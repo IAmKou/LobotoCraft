@@ -1,5 +1,7 @@
 {
   "block.lobotocraft.containment_controller": "ɹǝןןoɹʇuoɔ ʇuǝɯuıɐʇuoƆ",
+  "block.lobotocraft.containment_door": "ɹoop ʇuǝɯuıɐʇuoƆ",
+  "block.lobotocraft.containment_lever": "ɹǝʌǝן ʇuǝɯuıɐʇuoƆ",
   "block.lobotocraft.containment_wall": "ןןɐʍ ʇuǝɯuıɐʇuoƆ",
   "block.lobotocraft.deepslate_lead_ore": "ǝɹO pɐǝꞀ ǝʇɐןsdǝǝᗡ",
   "block.lobotocraft.deepslate_silver_ore": "ǝɹO ɹǝʌןıS ǝʇɐןsdǝǝᗡ",
@@ -33,7 +35,7 @@
   "tag.block.c.storage_blocks.raw_mercury": "sʞɔoןᗺ ǝbɐɹoʇS ʎɹnɔɹǝW ʍɐᴚ",
   "tag.block.c.storage_blocks.raw_silver": "sʞɔoןᗺ ǝbɐɹoʇS ɹǝʌןıS ʍɐᴚ",
   "tag.block.c.storage_blocks.silver": "sʞɔoןᗺ ǝbɐɹoʇS ɹǝʌןıS",
-  "tag.block.lobotocraft.building_block": "ʞɔoןᗺ buıpןınᗺ",
+  "tag.block.lobotocraft.containment_building_block": "ʞɔoןᗺ buıpןınᗺ",
   "tag.block.lobotocraft.non_breakable": "ǝןqɐʞɐǝɹq-uoN",
   "tag.block.lobotocraft.non_movable": "ǝןqɐʌoɯ-uoN",
   "tag.block.lobotocraft.storage_block": "ʞɔoןᗺ ǝbɐɹoʇS",

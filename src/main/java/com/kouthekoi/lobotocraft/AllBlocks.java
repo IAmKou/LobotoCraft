@@ -1,6 +1,8 @@
 package com.kouthekoi.lobotocraft;
 
 import com.kouthekoi.lobotocraft.content.containmentcontroller.FormableWallBlock;
+import com.kouthekoi.lobotocraft.content.door.ContainmentDoorBlock;
+import com.kouthekoi.lobotocraft.content.lever.ContainmentLeverBlock;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
 import com.kouthekoi.lobotocraft.foundation.data.recipe.CommonMetal;
 import com.kouthekoi.lobotocraft.content.containmentcontroller.ContainmentControllerBlock;
@@ -8,21 +10,26 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.Map;
 
+import static com.kouthekoi.lobotocraft.foundation.data.ModelGen.customItemModel;
 import static com.kouthekoi.lobotocraft.foundation.data.TagGen.pickaxeOnly;
 import static com.kouthekoi.lobotocraft.foundation.data.TagGen.tagBlockAndItem;
 
@@ -191,7 +198,7 @@ public class AllBlocks {
                             .requiresCorrectToolForDrops()
                             .sound(SoundType.DEEPSLATE))
                     .transform(pickaxeOnly())
-                    .tag(BlockTags.NEEDS_IRON_TOOL, AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .tag(BlockTags.NEEDS_IRON_TOOL, AllTags.AllBlockTags.CONTAINMENT_BUILDING_BLOCK.tag)
                     .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
                         String name = state.getValue(FormableWallBlock.FORMED)
                                 ? ctx.getName() + "_formed" : ctx.getName();
@@ -211,7 +218,7 @@ public class AllBlocks {
                             .requiresCorrectToolForDrops()
                             .sound(SoundType.DEEPSLATE))
                     .transform(pickaxeOnly())
-                    .tag(BlockTags.NEEDS_DIAMOND_TOOL, AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .tag(BlockTags.NEEDS_DIAMOND_TOOL, AllTags.AllBlockTags.CONTAINMENT_BUILDING_BLOCK.tag)
                     .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
                         String name = state.getValue(FormableWallBlock.FORMED)
                                 ? ctx.getName() + "_formed" : ctx.getName();
@@ -224,11 +231,21 @@ public class AllBlocks {
                     .register();
 
 
-    public static final BlockEntry<Block> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", Block::new)
+    public static final BlockEntry<FormableWallBlock> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", FormableWallBlock::new)
             .initialProperties(() -> Blocks.GLASS)
-            .properties(p -> p.mapColor(MapColor.CRIMSON_HYPHAE)
+            .properties(p -> p.mapColor(MapColor.COLOR_BLACK)
                     .sound(SoundType.GLASS))
-            .tag(AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+            .transform(pickaxeOnly())
+            .tag(AllTags.AllBlockTags.CONTAINMENT_BUILDING_BLOCK.tag)
+            .blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+                boolean formed = state.getValue(FormableWallBlock.FORMED);
+                ModelFile model = formed
+                        ? prov.models().getExistingFile(prov.modLoc("block/qliphoth_counter/qliphoth_counter"))
+                        : prov.models().cubeAll(ctx.getName(), prov.modLoc("block/qliphoth_counter"));
+                return ConfiguredModel.builder()
+                        .modelFile(model)
+                        .build();
+            }))
             .lang("Qliphoth counter")
             .simpleItem()
             .register();
@@ -239,9 +256,49 @@ public class AllBlocks {
                     .properties(p -> p.mapColor(MapColor.COLOR_BLACK)
                             .sound(SoundType.GLASS)
                             .noOcclusion())
-                    .tag(AllTags.AllBlockTags.BUILDING_BLOCK.tag)
+                    .tag(AllTags.AllBlockTags.CONTAINMENT_BUILDING_BLOCK.tag)
                     .lang("Containment controller")
                     .simpleItem()
+                    .register();
+
+    public static final BlockEntry<ContainmentDoorBlock> CONTAINMENT_DOOR =
+            REGISTRATE.block("containment_door", ContainmentDoorBlock::new)
+                    .initialProperties(() -> Blocks.IRON_DOOR)
+                    .transform(pickaxeOnly())
+                    .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
+                            prov.modLoc("block/containment_door_bottom"),
+                            prov.modLoc("block/containment_door_top")))
+                    .loot((lt, b) -> lt.add(b, lt.createDoorTable(b)))   // only the lower half drops
+                    .lang("Containment door")
+                    .item(DoubleHighBlockItem::new)
+                    .model((ctx, prov) -> prov.generated(ctx::getEntry, prov.modLoc("block/containment_door_bottom")))
+                    .build()
+                    .register();
+
+    public static final BlockEntry<ContainmentLeverBlock> CONTAINMENT_LEVER =
+            REGISTRATE.block("containment_lever", ContainmentLeverBlock::new)
+                    .initialProperties(() -> Blocks.LEVER)
+                    .blockstate((ctx, prov) -> {
+                        ModelFile off = prov.models().withExistingParent(ctx.getName(), prov.mcLoc("block/lever"))
+                                .texture("lever", prov.modLoc("block/containment_lever"));
+                        ModelFile on = prov.models().withExistingParent(ctx.getName() + "_on", prov.mcLoc("block/lever_on"))
+                                .texture("lever", prov.modLoc("block/containment_lever"));
+
+                        prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+                            AttachFace face = state.getValue(LeverBlock.FACE);
+                            int x = switch (face) { case FLOOR -> 0; case WALL -> 90; case CEILING -> 180; };
+                            int y = (int) state.getValue(LeverBlock.FACING).toYRot();
+                            if (face == AttachFace.CEILING) y = (y + 180) % 360;
+                            return ConfiguredModel.builder()
+                                    .modelFile(state.getValue(LeverBlock.POWERED) ? on : off)
+                                    .rotationX(x).rotationY(y)
+                                    .build();
+                        });
+                    })
+                    .lang("Containment lever")
+                    .item()
+                    .model((ctx, prov) -> prov.generated(ctx::getEntry, prov.modLoc("block/containment_lever")))
+                    .build()
                     .register();
 
     public static void register() {

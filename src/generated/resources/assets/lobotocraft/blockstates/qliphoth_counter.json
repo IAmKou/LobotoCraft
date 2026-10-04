@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "formed=false": {
       "model": "lobotocraft:block/qliphoth_counter"
+    },
+    "formed=true": {
+      "model": "lobotocraft:block/qliphoth_counter/qliphoth_counter"
     }
   }
 }

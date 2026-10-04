@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/lever",
+  "textures": {
+    "lever": "lobotocraft:block/containment_lever"
+  }
+}

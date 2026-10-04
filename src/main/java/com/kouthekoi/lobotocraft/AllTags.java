@@ -51,7 +51,7 @@ public class AllTags {
     public enum AllBlockTags {
         NON_MOVABLE,
         NON_BREAKABLE,
-        BUILDING_BLOCK,
+        CONTAINMENT_BUILDING_BLOCK,
         STORAGE_BLOCK
         ;
 
