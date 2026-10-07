@@ -3,6 +3,7 @@ package com.kouthekoi.lobotocraft;
 import com.kouthekoi.lobotocraft.content.containmentcontroller.FormableWallBlock;
 import com.kouthekoi.lobotocraft.content.door.ContainmentDoorBlock;
 import com.kouthekoi.lobotocraft.content.lever.ContainmentLeverBlock;
+import com.kouthekoi.lobotocraft.content.qliphothcounter.QliphothCounterBlock;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
 import com.kouthekoi.lobotocraft.foundation.data.recipe.CommonMetal;
 import com.kouthekoi.lobotocraft.content.containmentcontroller.ContainmentControllerBlock;
@@ -231,7 +232,7 @@ public class AllBlocks {
                     .register();
 
 
-    public static final BlockEntry<FormableWallBlock> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", FormableWallBlock::new)
+    public static final BlockEntry<QliphothCounterBlock> QLIPHOTH_COUNTER = REGISTRATE.block("qliphoth_counter", QliphothCounterBlock::new)
             .initialProperties(() -> Blocks.GLASS)
             .properties(p -> p.mapColor(MapColor.COLOR_BLACK)
                     .sound(SoundType.GLASS))

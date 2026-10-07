@@ -3,6 +3,7 @@ package com.kouthekoi.lobotocraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kouthekoi.lobotocraft.foundation.data.LobotoRegistrate;
+import com.kouthekoi.lobotocraft.foundation.entity.TestAbnoEntity;
 import com.kouthekoi.lobotocraft.foundation.networking.ControllerActionPacket;
 import com.kouthekoi.lobotocraft.infrastructure.data.CreateDatagen;
 import net.minecraft.resources.ResourceKey;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -43,12 +45,18 @@ public class LobotoCraft {
         AllBlocks.register();
         AllItems.register();
         AllBlocksEntity.register();
+        AllEntityTypes.register(modEventBus);
+        modEventBus.addListener(LobotoCraft::registerEntityAttributes);
 
         modEventBus.addListener((RegisterPayloadHandlersEvent event) ->
                 event.registrar("1").playToServer(
                         ControllerActionPacket.TYPE, ControllerActionPacket.CODEC, ControllerActionPacket::handle));
         modEventBus.addListener(EventPriority.HIGHEST, CreateDatagen::gatherDataHighPriority);
         modEventBus.addListener(EventPriority.LOWEST, CreateDatagen::gatherData);
+    }
+
+    private static void registerEntityAttributes(EntityAttributeCreationEvent event) {
+        event.put(AllEntityTypes.TEST_ABNO.get(), TestAbnoEntity.createAttributes().build());
     }
 
     public static ResourceLocation asResource(String path) {
